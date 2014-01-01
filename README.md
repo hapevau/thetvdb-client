@@ -143,5 +143,13 @@ Array von Bildobjekten
 		}
 	]        
 	
+
+### Bild abrufen und speichern
+
+**Aufruf**
+
+getImageAndSave(url, filename, callback)
+
+Übergeben werden die URL des Bildes (evtl. aus getBannersBySeriesId), der gewünschte Dateiname und der obligatorische callback 
 	
 Der Client verfügt noch über weitere Funktionen, die aber hauptsächlich intern verwendet werden. Bei Interesse einfach in die Source schauen.
