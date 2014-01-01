@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": "https://github.com/hapevau/thetvdb-client",
+  "repository": "https://github.com/hapevau/thetvdb-client.git",
   "keywords": [
     "tvdb", "json", "service"
   ],
