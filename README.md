@@ -11,7 +11,7 @@ Das Modul verwendet request für die Aufrufe der tvdb-Api und xml2js für die Ko
 
 ## Verwendung
 
-	var tvdbc = require('tvdbClient'),
+	var tvdbc = require('hpv-tvdb'),
 	    client = new tvdbc.TvDbClient(%apikey),
 	    callback = function(err, result) {
 		    console.log(result);
