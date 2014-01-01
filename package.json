@@ -1,6 +1,6 @@
 {
   "name": "hpv-tvdb",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Node.js Client für die thetvdb.com-Api. Der Client liefert die (deutschen) Daten als JSON",
   "main": "tvdbClient.js",
   "scripts": {
