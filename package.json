@@ -8,8 +8,8 @@
   },
   "repository": {
  	"type": "git",
-    "url": "https://github.com/hapevau/thetvdb-client.git"
- },
+    "url": "git+https://github.com/hapevau/thetvdb-client.git"
+  },
   "keywords": [
     "tvdb", "json", "service"
   ],
