@@ -109,10 +109,10 @@ getBannersBySeriesId(%Serien-Id, callback)
 Ein Objekt strukturiert nach Bildarten (bannertype)
 
 	{
-		'%Bildart' : {
+		'%Bildart' : [{
 			url: Url zum Bild, 
 			language: Sprache
-		}
+		}]‚
 	}          
 	
 Mögliche Bildarten sind: 
