@@ -128,7 +128,7 @@ tvdbClient.prototype.getSeasonsBySeriesId = function(id, cb) {
 			series = {
 				name: all.Data.Series.SeriesName,
 				id:  all.Data.Series.id,
-				overview: self.cleaner.normalizeLineBreaks(all.Data.Series.Overview),
+				overview: (all.Data.Series.Overview) ? self.cleaner.normalizeLineBreaks(all.Data.Series.Overview) : '',
 				actors: self.cleaner.listStringToArray(all.Data.Series.Actors),
 				genre: self.cleaner.listStringToArray(all.Data.Series.Genre),
 				rating: all.Data.Series.ContentRating,
@@ -149,7 +149,7 @@ tvdbClient.prototype.getSeasonsBySeriesId = function(id, cb) {
 						name: all.Data.Episode[i].EpisodeName,
 						number: all.Data.Episode[i].EpisodeNumber,
 						id: all.Data.Episode[i].id,
-						overview: self.cleaner.normalizeLineBreaks(all.Data.Episode[i].Overview),
+						overview: (all.Data.Episode[i].Overview) ? self.cleaner.normalizeLineBreaks(all.Data.Episode[i].Overview) : '',
 						directors: self.cleaner.listStringToArray(all.Data.Episode[i].Director),
 						writers: self.cleaner.listStringToArray(all.Data.Episode[i].Writer),   
 						firstaired: all.Data.Episode[i].FirstAired,
@@ -188,7 +188,7 @@ tvdbClient.prototype.getSeriesByTitle = function(title, cb) {
 								imageurl: self.baseImgUrl+parseResult.Data.Series[i].banner,
 								id: parseResult.Data.Series[i].seriesid,
 								language: parseResult.Data.Series[i].language,
-								overview: self.cleaner.normalizeLineBreaks(parseResult.Data.Series[i].Overview),
+								overview: (parseResult.Data.Series[i].Overview) ? self.cleaner.normalizeLineBreaks(parseResult.Data.Series[i].Overview) : '',
 								imdbid: parseResult.Data.Series[i].IMDB_ID
 							}
 						);
