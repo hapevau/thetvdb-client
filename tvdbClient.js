@@ -169,27 +169,29 @@ tvdbClient.prototype.getSeasonsBySeriesId = function(id, cb) {
 
 tvdbClient.prototype.getSeriesByTitle = function(title, cb) {
 	var url = util.format(this.getByTitleUrl, title),
-		series = [],
+		series = [], 
+		erg,
 		self=this;  
 	 request.get(url, function(err, response, body){
 		if(err) {
 			cb(err, null);
 		} else {
 			parser.parseString(body, function(parseError, parseResult){
-				if(err) {
-					cb(err, null);
-				} else { 
-					for(var i=0, len=parseResult.Data.Series.length;i<len;i+=1)  
+				if(parseError ) {
+					cb(parseError, null);
+				} else {      
+					erg = parseResult.Data.Series || [];
+					for(var i=0, len=erg.length;i<len;i+=1)  
 					{
 						series.push(
 							{
-								name: parseResult.Data.Series[i].SeriesName,
-								alias: parseResult.Data.Series[i].AliasNames || '',
-								imageurl: self.baseImgUrl+parseResult.Data.Series[i].banner,
-								id: parseResult.Data.Series[i].seriesid,
-								language: parseResult.Data.Series[i].language,
-								overview: (parseResult.Data.Series[i].Overview) ? self.cleaner.normalizeLineBreaks(parseResult.Data.Series[i].Overview) : '',
-								imdbid: parseResult.Data.Series[i].IMDB_ID
+								name: erg[i].SeriesName,
+								alias: erg[i].AliasNames || '',
+								imageurl: self.baseImgUrl+erg[i].banner,
+								id: erg[i].seriesid,
+								language: erg[i].language,
+								overview: (erg[i].Overview) ? self.cleaner.normalizeLineBreaks(erg[i].Overview) : '',
+								imdbid: erg[i].IMDB_ID
 							}
 						);
 					}
