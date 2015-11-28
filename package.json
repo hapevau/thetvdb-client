@@ -1,13 +1,13 @@
 {
   "name": "hpv-tvdb",
-  "version": "0.0.9",
-  "description": "Node.js Client für die thetvdb.com-Api. Der Client liefert die (deutschen) Daten als JSON",
+  "version": "0.0.10",
+  "description": "Client für die thetvdb.com-Api. Der Client liefert die (deutschen) Daten als JSON",
   "main": "tvdbClient.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
- 	"type": "git",
+    "type": "git",
     "url": "git+https://github.com/hapevau/thetvdb-client.git"
   },
   "keywords": [
@@ -16,7 +16,8 @@
   "author": "hpv",
   "license": "MIT",
   "dependencies": {
-	"request": "2.30.0",
-	"xml2js": "0.4.0"
+    "sprintf-js": "^1.0.3",
+    "superagent": "^1.4.0",
+    "xml2js": "0.4.0"
   }
 }
