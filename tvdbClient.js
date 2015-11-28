@@ -1,9 +1,12 @@
 var xml2js =  require('xml2js'),
-	request = require('request'),
-	util=require('util'),
-	parser = new xml2js.Parser({explicitArray: false}),
-	fs = require('fs'), 
-	path = require("path");    
+	request = require('superagent'),
+	sprintf=require('sprintf-js').sprintf,
+	parser = new xml2js.Parser({explicitArray: false});
+  
+var util = {};
+    util.format = sprintf;
+    
+var isBrowser = typeof window != 'undefined' && !(typeof process === 'object' && process + '' === '[object process]');
 	
 function tvdbCleaner(){	
 }   
@@ -16,27 +19,31 @@ tvdbCleaner.prototype.listStringToArray = function(text){
 	return text.replace(/,/g, "|").split('|').filter(function(n) {return n;});  
 };
 
+function addCorsio() {
+  return isBrowser ? 'http://cors.io/?u=' : '';
+}
+
 function tvdbClient(apiKey, cleaner) {
 	this.cleaner = cleaner || new  tvdbCleaner(); 
 	this.baseImgUrl =  'http://thetvdb.com/banners/'; 
-	this.languageUrl = 'http://thetvdb.com/api/%s/languages.xml';   
-	this.mirrorUrl = 'http://thetvdb.com/api/%s/mirrors.xml';   
+	this.languageUrl =  addCorsio() + 'http://thetvdb.com/api/%s/languages.xml';   
+	this.mirrorUrl = addCorsio() + 'http://thetvdb.com/api/%s/mirrors.xml';   
 	this.apiKey = apiKey;
-	this.getAllBySeriesIdUrl = 'http://thetvdb.com/api/%s/series/%s/all/de.xml';
-	this.getSeriesInfoBySeriesIdUrl = 'http://thetvdb.com/api/%s/series/%s/de.xml' 
-	this.getByEpisodeIdUrl = 'http://thetvdb.com/api/%s/episodes/%s/de.xml';  
-	this.getByTitleUrl ='http://thetvdb.com/api/GetSeries.php?seriesname=%s&language=de';
-	this.getBannersBySeriesIdUrl = 'http://thetvdb.com/api/%s/series/%s/banners.xml';  
-	this.getActorsBySeriesIdUrl = 'http://thetvdb.com/api/%s/series/%s/actors.xml';
+	this.getAllBySeriesIdUrl = addCorsio() + 'http://thetvdb.com/api/%s/series/%s/all/de.xml';
+	this.getSeriesInfoBySeriesIdUrl = addCorsio() + 'http://thetvdb.com/api/%s/series/%s/de.xml' 
+	this.getByEpisodeIdUrl = addCorsio() + 'http://thetvdb.com/api/%s/episodes/%s/de.xml';  
+	this.getByTitleUrl = addCorsio() + 'http://thetvdb.com/api/GetSeries.php?seriesname=%s&language=de';
+	this.getBannersBySeriesIdUrl = addCorsio() + 'http://thetvdb.com/api/%s/series/%s/banners.xml';  
+	this.getActorsBySeriesIdUrl = addCorsio() + 'http://thetvdb.com/api/%s/series/%s/actors.xml';
 }	
 
 tvdbClient.prototype.getById = function(template, id, cb) {
 	var url = util.format(template, this.apiKey, id); 
-	request.get(url, function(err, response, body){
+	request.get(url).end(function(err, response){
 		if(err) {
 			cb(err, null);
 		} else {
-			parser.parseString(body, function(parseError, parseResult){
+			parser.parseString(response.text, function(parseError, parseResult){
 				if(err) {
 					cb(err, null);
 				} else {
@@ -172,11 +179,11 @@ tvdbClient.prototype.getSeriesByTitle = function(title, cb) {
 		series = [], 
 		erg,
 		self=this;  
-	 request.get(url, function(err, response, body){
+	 request.get(url).end(function(err, response){
 		if(err) {
 			cb(err, null);
 		} else {
-			parser.parseString(body, function(parseError, parseResult){
+			parser.parseString(response.text, function(parseError, parseResult){
 				if(parseError ) {
 					cb(parseError, null);
 				} else {      
@@ -210,27 +217,11 @@ tvdbClient.prototype.getEpisodeInfoByEpisodeId = function(id, cb) {
 	this.getById(this.getByEpisodeIdUrl, id, cb);
 };  
 
-tvdbClient.prototype.getImageAndSave = function(url, filename, cb){
-	var fd,
-		requestSettings = {
-			method: 'GET',
-		    url: url, 
-			encoding: null
-	};
-	request(requestSettings, function(err, resp, body){
-	    if(err) {
-			cb(err, null);
-	    } else {                           
-			fd =  fs.openSync(filename, 'w');
-			fs.write(fd, body, 0, body.length, 0, function(err, written){
-              	if(err) {
-	            	cb(err, null);
-				} else {
-					cb(null, {written: written});
-				}
-		    });
-		}
-	});
+tvdbClient.prototype.getImageAndSave = function(url, filename, cb) {
+	return null;
 };          
 
-module.exports.TvDbClient = tvdbClient;
+if(isBrowser)
+  window.TvDbClient = tvdbClient;
+else
+  module.exports.TvDbClient = tvdbClient;
