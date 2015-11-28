@@ -11,14 +11,27 @@ Das Modul verwendet request für die Aufrufe der tvdb-Api und xml2js für die Ko
 
 ## Verwendung
 
-	var tvdbc = require('hpv-tvdb'),
-	    client = new tvdbc.TvDbClient(%apikey),
-	    callback = function(err, result) {
-		    console.log(result);
-	    };
-	client.getSeriesByTitle('Bones', callback); 
-	// SerienId entnehmen
-	client.getSeasonsBySeriesId('75682', callback);
+```javascript
+var tvdbc = require('hpv-tvdb'),
+    client = new tvdbc.TvDbClient(%apikey),
+    callback = function(err, result) {
+	    console.log(result);
+    };
+client.getSeriesByTitle('Bones', callback); 
+// SerienId entnehmen
+client.getSeasonsBySeriesId('75682', callback);
+```
+### Browsers
+  
+For browser-usage include `dist/tvdbClient.js` or use your favorite bundler.
+    
+```html
+<script src="dist/tvdbClient.js"></script>
+<script>
+ var client = new TvDbClient(%apikey);
+ ...
+</script>
+```
 	
 %apikey = von thetvdb.com bereitgestellter API-Key
 
@@ -143,13 +156,3 @@ Array von Bildobjekten
 		}
 	]        
 	
-
-### Bild abrufen und speichern
-
-**Aufruf**
-
-getImageAndSave(url, filename, callback)
-
-Übergeben werden die URL des Bildes (evtl. aus getBannersBySeriesId), der gewünschte Dateiname und der obligatorische callback 
-	
-Der Client verfügt noch über weitere Funktionen, die aber hauptsächlich intern verwendet werden. Bei Interesse einfach in die Source schauen.
